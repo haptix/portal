@@ -1,3 +1,5 @@
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'U' AND name = 'rb_userPagePermission')
+BEGIN
 Create Table dbo.rb_userPagePermission
 (
 	Id int identity PRIMARY KEY,
@@ -5,5 +7,6 @@ Create Table dbo.rb_userPagePermission
 	UserId uniqueidentifier,
 	Permission int
 )
+END
 GO
 

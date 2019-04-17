@@ -9,6 +9,9 @@ BEGIN
 END
 GO
 
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'rb_DeleteTabToRecycler')
+DROP PROCEDURE rb_DeleteTabToRecycler
+GO
 
 create PROCEDURE [dbo].[rb_DeleteTabToRecycler]
 (
@@ -30,7 +33,9 @@ INSERT INTO rb_Recycler (ModuleID, DateDeleted, DeletedBy, OriginalTab, IsPage)	
 END
 GO
 
-
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'rb_RestoreTab')
+DROP PROCEDURE rb_RestoreTab
+GO
 create PROCEDURE [dbo].[rb_RestoreTab]
 (
     @PageID int,
@@ -58,7 +63,9 @@ END
 GO
 
 
-
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'rb_GetPagesInRecycler')
+DROP PROCEDURE rb_GetPagesInRecycler
+GO
 create PROCEDURE [dbo].[rb_GetPagesInRecycler]
 (
  @PortalID int,
