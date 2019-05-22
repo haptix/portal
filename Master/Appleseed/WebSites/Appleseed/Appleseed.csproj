@@ -1541,6 +1541,7 @@
     <Folder Include="images\default\" />
     <Folder Include="packages\" />
     <Folder Include="Portals\_Appleseed\Album\" />
+    <Folder Include="rb_logs\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Projects\Appleseed.Framework.Core\Appleseed.Framework.Core.csproj">
@@ -5369,7 +5370,6 @@
     <Content Include="Portals\_Appleseed\xml\sales.xsl" />
     <Content Include="Portals\_Appleseed\xml\sales2.xml" />
     <Content Include="Portals\_Appleseed\xml\sales2.xsl" />
-    <Content Include="rb_logs\rb_logs.txt" />
     <Content Include="robots.txt" />
     <Content Include="Setup\Scripts\2.0.0.1922.sql" />
     <Content Include="Setup\Scripts\1.1.7.1111.sql" />

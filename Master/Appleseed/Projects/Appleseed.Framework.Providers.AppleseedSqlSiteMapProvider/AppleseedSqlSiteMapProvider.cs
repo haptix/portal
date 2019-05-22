@@ -94,6 +94,8 @@ namespace Appleseed.Framework.Providers.AppleseedSiteMapProvider
         /// </summary>
         private readonly Dictionary<int, SiteMapNode> theNodes = new Dictionary<int, SiteMapNode>(16);
 
+        private static Dictionary<string, SiteMapNode> theNodeCache = new Dictionary<string, SiteMapNode>();
+
         /// <summary>
         ///   The connect.
         /// </summary>
@@ -208,72 +210,19 @@ namespace Appleseed.Framework.Providers.AppleseedSiteMapProvider
                 // if (_root["PortalID"] == PortalID) {
                 // return _root;
                 // } else {
-                this.Clear();
-                string defaultPagePermissons = "All Users";
 
-                var pS = this.PortalSettings;
-                if (pS.CustomSettings["ENABLE_PRIVATE_SITE"].Value.ToString() == "True" && !HttpContext.Current.Request.IsAuthenticated)
+                if (HttpContext.Current != null && (!HttpContext.Current.Items.Contains("IsBuiltSiteMap") || HttpContext.Current.Items["IsBuiltSiteMap"].ToString() != "1"))
                 {
-                    this.root = new SiteMapNode(
-                        this,
-                        RootNodeId.ToString(),
-                        HttpUrlBuilder.BuildUrl(),
-                        string.Empty,
-                        string.Empty,
-                        new[] { defaultPagePermissons },
-                        null,
-                        null,
-                        null);
-                    this.root["PortalID"] = PortalId;
-                    this.theNodes.Add(RootNodeId, this.root);
-                    this.AddNode(this.root, null);
-                    return this.root;
-                }
+                    this.Clear();
+                    theNodeCache.Clear();
 
-                // }
-                // }
+                    ErrorHandler.Publish(LogLevel.Info, " BuildSiteMap > " + DateTime.Now.ToString());
 
-                // Query the database for site map nodes
-                var connection = new SqlConnection(this.connect);
+                    string defaultPagePermissons = "All Users";
 
-                try
-                {
-                    var command = new SqlCommand(BuildSiteMapQuery(), connection) { CommandType = CommandType.Text };
-                    command.CommandType = CommandType.StoredProcedure;
-                    var parameterPageId = new SqlParameter("@PortalID", SqlDbType.Int, 4) { Value = PortalId };
-                    command.Parameters.Add(parameterPageId);
-                    //var parameterCulture = new SqlParameter("@Culture", SqlDbType.VarChar, 5) { Value = Thread.CurrentThread.CurrentUICulture.ToString() };
-                    //command.Parameters.Add(parameterCulture);
-
-                    //Thread.CurrentThread.CurrentUICulture + PortalId
-
-                    // Create a SQL cache dependency if requested
-                    SqlCacheDependency dependency = null;
-
-                    if (this.dependency2005)
+                    var pS = this.PortalSettings;
+                    if (pS.CustomSettings["ENABLE_PRIVATE_SITE"].Value.ToString() == "True" && !HttpContext.Current.Request.IsAuthenticated)
                     {
-                        dependency = new SqlCacheDependency(command);
-                    }
-                    else if (!String.IsNullOrEmpty(this.database) && !string.IsNullOrEmpty(this.table))
-                    {
-                        dependency = new SqlCacheDependency(this.database, this.table);
-                    }
-
-                    connection.Open();
-
-                    var reader = command.ExecuteReader();
-                    this.indexPageId = reader.GetOrdinal("PageID");
-                    this.indexParentPageId = reader.GetOrdinal("ParentPageID");
-                    this.indexPageOrder = reader.GetOrdinal("PageOrderInt");
-                    this.indexPortalId = reader.GetOrdinal("PortalID");
-                    this.indexPageName = reader.GetOrdinal("PageName");
-                    this.indexAuthorizedRoles = reader.GetOrdinal("AuthorizedRoles");
-                    this.indexPageLayout = reader.GetOrdinal("PageLayout");
-                    this.indexPageDescription = reader.GetOrdinal("PageDescription");
-
-                    if (reader.Read())
-                    {
-                        // Create an empty root node and add it to the site map
                         this.root = new SiteMapNode(
                             this,
                             RootNodeId.ToString(),
@@ -286,69 +235,141 @@ namespace Appleseed.Framework.Providers.AppleseedSiteMapProvider
                             null);
                         this.root["PortalID"] = PortalId;
                         this.theNodes.Add(RootNodeId, this.root);
+                        theNodeCache.Add(RootNodeId.ToString(), this.root);
                         this.AddNode(this.root, null);
+                        return this.root;
+                    }
 
-                        // Build a tree of SiteMapNodes underneath the root node
-                        do
+                    // }
+                    // }
+
+                    // Query the database for site map nodes
+                    var connection = new SqlConnection(this.connect);
+
+                    try
+                    {
+                        var command = new SqlCommand(BuildSiteMapQuery(), connection) { CommandType = CommandType.Text };
+                        command.CommandType = CommandType.StoredProcedure;
+                        var parameterPageId = new SqlParameter("@PortalID", SqlDbType.Int, 4) { Value = PortalId };
+                        command.Parameters.Add(parameterPageId);
+                        //var parameterCulture = new SqlParameter("@Culture", SqlDbType.VarChar, 5) { Value = Thread.CurrentThread.CurrentUICulture.ToString() };
+                        //command.Parameters.Add(parameterCulture);
+
+                        //Thread.CurrentThread.CurrentUICulture + PortalId
+
+                        // Create a SQL cache dependency if requested
+                        SqlCacheDependency dependency = null;
+
+                        if (this.dependency2005)
                         {
-                            // Create another site map node and add it to the site map
-                            var node = this.CreateSiteMapNodeFromDataReader(reader);
-                            var parentNode = this.GetParentNodeFromDataReader(reader);
-                            //ErrorHandler.Publish(LogLevel.Info, node.Url);
-                            if (parentNode != null && node != null)
+                            dependency = new SqlCacheDependency(command);
+                        }
+                        else if (!String.IsNullOrEmpty(this.database) && !string.IsNullOrEmpty(this.table))
+                        {
+                            dependency = new SqlCacheDependency(this.database, this.table);
+                        }
+
+                        connection.Open();
+
+                        var reader = command.ExecuteReader();
+                        this.indexPageId = reader.GetOrdinal("PageID");
+                        this.indexParentPageId = reader.GetOrdinal("ParentPageID");
+                        this.indexPageOrder = reader.GetOrdinal("PageOrderInt");
+                        this.indexPortalId = reader.GetOrdinal("PortalID");
+                        this.indexPageName = reader.GetOrdinal("PageName");
+                        this.indexAuthorizedRoles = reader.GetOrdinal("AuthorizedRoles");
+                        this.indexPageLayout = reader.GetOrdinal("PageLayout");
+                        this.indexPageDescription = reader.GetOrdinal("PageDescription");
+
+                        if (reader.Read())
+                        {
+                            // Create an empty root node and add it to the site map
+                            this.root = new SiteMapNode(
+                                this,
+                                RootNodeId.ToString(),
+                                HttpUrlBuilder.BuildUrl(),
+                                string.Empty,
+                                string.Empty,
+                                new[] { defaultPagePermissons },
+                                null,
+                                null,
+                                null);
+                            this.root["PortalID"] = PortalId;
+                            this.theNodes.Add(RootNodeId, this.root);
+                            theNodeCache.Add(RootNodeId.ToString(), this.root);
+                            this.AddNode(this.root, null);
+
+                            // Build a tree of SiteMapNodes underneath the root node
+                            do
                             {
-                                try
+                                // Create another site map node and add it to the site map
+                                var node = this.CreateSiteMapNodeFromDataReader(reader);
+                                var parentNode = this.GetParentNodeFromDataReader(reader);
+                                //ErrorHandler.Publish(LogLevel.Info, node.Url);
+                                if (parentNode != null && node != null)
                                 {
-                                    this.AddNode(node, parentNode);
-                                }
-                                catch (Exception ex)
-                                {
-                                    if (node != null)
+                                    try
                                     {
-                                        if (HttpContext.Current.Request.Url.PathAndQuery.ToLower().Contains("sitemap.axd"))
+                                        this.AddNode(node, parentNode);
+                                        theNodeCache.Add(node.Key, node);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        if (node != null)
                                         {
-                                            if (!this.PortalSettings.EnablePageFriendlyUrlSitemap)
+                                            if (HttpContext.Current.Request.Url.PathAndQuery.ToLower().Contains("sitemap.axd"))
+                                            {
+                                                if (!this.PortalSettings.EnablePageFriendlyUrlSitemap)
+                                                {
+                                                    node.Url = "/default.aspx?lnkId=" + node.Key;
+                                                    this.AddNode(node, parentNode);
+                                                    theNodeCache.Add(node.Key, node);
+                                                }
+                                            }
+                                            else
                                             {
                                                 node.Url = "/default.aspx?lnkId=" + node.Key;
                                                 this.AddNode(node, parentNode);
+                                                theNodeCache.Add(node.Key, node);
                                             }
-                                        }
-                                        else
-                                        {
-                                            node.Url = "/default.aspx?lnkId=" + node.Key;
-                                            this.AddNode(node, parentNode);
                                         }
                                     }
                                 }
+                                else
+                                {
+                                    //ErrorHandler.Publish(LogLevel.Info, " parentNode NULL");
+                                }
+                            }
+                            while (reader.Read());
+
+                            // Use the SQL cache dependency
+                            if (dependency != null)
+                            {
+                                HttpRuntime.Cache.Insert(
+                                    CacheDependencyName + PortalId,
+                                    new object(),
+                                    dependency,
+                                    Cache.NoAbsoluteExpiration,
+                                    Cache.NoSlidingExpiration,
+                                    CacheItemPriority.NotRemovable,
+                                    this.OnSiteMapChanged);
                             }
                             else
                             {
-                                //ErrorHandler.Publish(LogLevel.Info, " parentNode NULL");
+
                             }
                         }
-                        while (reader.Read());
-
-                        // Use the SQL cache dependency
-                        if (dependency != null)
-                        {
-                            HttpRuntime.Cache.Insert(
-                                CacheDependencyName + PortalId,
-                                new object(),
-                                dependency,
-                                Cache.NoAbsoluteExpiration,
-                                Cache.NoSlidingExpiration,
-                                CacheItemPriority.NotRemovable,
-                                this.OnSiteMapChanged);
-                        }
-                        else
-                        {
-
-                        }
                     }
+                    finally
+                    {
+                        connection.Close();
+                    }
+
+                    HttpContext.Current.Items.Add("IsBuiltSiteMap", "1");
                 }
-                finally
+                else
                 {
-                    connection.Close();
+                    this.root = theNodeCache[RootNodeId.ToString()];
                 }
 
                 // Return the root SiteMapNode
