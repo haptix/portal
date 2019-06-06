@@ -183,6 +183,11 @@ namespace Appleseed.Framework.Web
                     if (friendlyURL != "")
                     {
                         hasFriendUrl = true;
+                        if (friendlyURL.StartsWith("http://") || friendlyURL.StartsWith("https://"))
+                        {
+                            sb = new StringBuilder();
+                        }
+
                         sb.Append(friendlyURL).ToString();
                     }
                 }
@@ -355,10 +360,22 @@ namespace Appleseed.Framework.Web
                 // Ashish.patel@haptix.biz - 2014/12/16 - 
                 // check friendly URL is enabled and requested file is exist physically or not. 
                 // If not exists and friendly url is enabled, the extension will be appended.
-                if (settings.EnablePageFriendlyUrl
-                    && !System.IO.File.Exists(HttpContext.Current.Server.MapPath(sb.ToString())) && !_friendlyUrlNoExtension)
+                string physicPath = "/";
+                try
                 {
-                    sb.Append(this._friendlyUrlExtension);
+                    physicPath = HttpContext.Current.Server.MapPath(sb.ToString());
+                }
+                catch (Exception ex)
+                {
+                    ErrorHandler.Publish(LogLevel.Warn, "Invalid request url error for Server.MapPath for " + sb.ToString(), ex);
+                }
+
+                if (settings.EnablePageFriendlyUrl && !_friendlyUrlNoExtension)
+                {
+                    if (!(sb.ToString().StartsWith("http://") || sb.ToString().StartsWith("https://")) && !System.IO.File.Exists(physicPath))
+                    {
+                        sb.Append(this._friendlyUrlExtension);
+                    }
                 }
 
                 // Add the query at the end

@@ -75,6 +75,8 @@
                                 <div>
                                     <rbfwebui:Label ID="lblUrlAlreadyExist" runat="server" CssClass="Error" EnableViewState="False"
                                         TextKey="ERROR_URL_ALREADY_EXIST" Visible="False"> Specified Friedly Url is already exists. Please specify another/different.</rbfwebui:Label>
+                                    <rbfwebui:Label ID="lblInvalidFriendlyUrl" runat="server" CssClass="Error" EnableViewState="False"
+                                        TextKey="ERROR_URL_IS_INVALID" Visible="False"> Specified Friedly Url is invalid. Please enter valid Friendly Url starts with "/".</rbfwebui:Label>
                                 </div>
                             </td>
                         </tr>

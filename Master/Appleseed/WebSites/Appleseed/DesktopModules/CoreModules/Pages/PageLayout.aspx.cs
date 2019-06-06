@@ -424,7 +424,11 @@ namespace Appleseed.Admin
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message == "FriendlyUrlIsAlreadyExists")
+                    if (ex.Message == "InvalidFriendlyUrl")
+                    {
+                        this.lblInvalidFriendlyUrl.Visible = true;
+                    }
+                    else if(ex.Message == "FriendlyUrlIsAlreadyExists")
                     {
                         this.lblUrlAlreadyExist.Visible = true;
                     }
@@ -461,7 +465,11 @@ namespace Appleseed.Admin
             }
             catch (Exception ex)
             {
-                if (ex.Message == "FriendlyUrlIsAlreadyExists")
+                if (ex.Message == "InvalidFriendlyUrl")
+                {
+                    this.lblInvalidFriendlyUrl.Visible = true;
+                }
+                else if (ex.Message == "FriendlyUrlIsAlreadyExists")
                 {
                     this.lblUrlAlreadyExist.Visible = true;
                 }
@@ -842,7 +850,11 @@ namespace Appleseed.Admin
             }
 
             var pageDB = new PagesDB();
-            if (!string.IsNullOrEmpty(this.friendlyUrl.Text) && pageDB.IsAlreadyExistsFriendlyUrl(this.friendlyUrl.Text, this.PageID))
+            if (!string.IsNullOrEmpty(this.friendlyUrl.Text) && (this.friendlyUrl.Text.Trim().StartsWith("http://") || this.friendlyUrl.Text.Trim().StartsWith("https://") || this.friendlyUrl.Text.Trim().StartsWith("//")))
+            {
+                throw new Exception("InvalidFriendlyUrl");
+            }
+            else if (!string.IsNullOrEmpty(this.friendlyUrl.Text) && pageDB.IsAlreadyExistsFriendlyUrl(this.friendlyUrl.Text, this.PageID))
             {
                 throw new Exception("FriendlyUrlIsAlreadyExists");
             }
