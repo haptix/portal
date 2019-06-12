@@ -43,9 +43,15 @@
         tr.odd:hover, tr.even:hover {
             background-color: #c8c8c8 !important;
         }
+
+    div#url-instructions, div#url-instructions p {
+        color: #fff !important;
+        font-size: 15px;
+        line-height: 20px;
+    }
 </style>
 
-<div style="width: 100%">
+<div style="width: 100%; padding: 0px 10px;">
 
 
     <div class="module-row">
@@ -78,7 +84,7 @@
     <div class="module-row">
         <div class="col-md-9">
             <div class="col-md-3">
-                <h6>Page</h6>
+                Page
             </div>
             <div class="col-md-6">
                 <asp:DropDownList ID="drpPageList" CssClass="FixTop" runat="server" ViewStateMode="Enabled" Width="265" AutoPostBack="true" OnSelectedIndexChanged="drpPageList_SelectedIndexChanged" />
@@ -88,7 +94,7 @@
     <div class="module-row" runat="server" id="divDyanamicPage">
         <div class="col-md-9">
             <div class="col-md-3">
-                <h6>Primary Short URL</h6>
+                Primary Short URL
             </div>
             <div class="col-md-6">
                 <asp:TextBox ID="txtDyanmicPage" CssClass="FixTop" runat="server" Width="265" PlaceHolder="" /><br />
@@ -100,7 +106,7 @@
     <div class="module-row">
         <div class="col-md-9">
             <div class="col-md-3">
-                <h6 id="h6Label" runat="server">Primary Short URL</h6>
+                <div id="h6Label" runat="server">Primary Short URL</div>
             </div>
             <div class="col-md-6">
                 <asp:TextBox ID="txtFriendlyURL" CssClass="FixTop" runat="server" Width="265" PlaceHolder="" />

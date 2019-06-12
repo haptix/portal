@@ -66,7 +66,7 @@
 
                         <tr>
                             <td class="Normal" width="100">
-                                <rbfwebui:Localize ID="Localize1" runat="server" Text="Friendly URL" TextKey="AM_PAGE_FRIENDLY_URL">
+                                <rbfwebui:Localize ID="Localize1" runat="server" Text="Short URL" TextKey="AM_PAGE_FRIENDLY_URL">
                                 </rbfwebui:Localize>
                             </td>
                             <td colspan="3">
@@ -74,9 +74,9 @@
                                     Width="300" OnTextChanged="PageSettings_Change" /><asp:Label ID="lblFriendlyExtension" runat="server" />
                                 <div>
                                     <rbfwebui:Label ID="lblUrlAlreadyExist" runat="server" CssClass="Error" EnableViewState="False"
-                                        TextKey="ERROR_URL_ALREADY_EXIST" Visible="False"> Specified Friedly Url is already exists. Please specify another/different.</rbfwebui:Label>
+                                        TextKey="ERROR_URL_ALREADY_EXIST" Visible="False"> Specified short URL is already exists. Please specify another/different.</rbfwebui:Label>
                                     <rbfwebui:Label ID="lblInvalidFriendlyUrl" runat="server" CssClass="Error" EnableViewState="False"
-                                        TextKey="ERROR_URL_IS_INVALID" Visible="False"> Specified Friedly Url is invalid. Please enter valid Friendly Url starts with "/".</rbfwebui:Label>
+                                        TextKey="ERROR_URL_IS_INVALID" Visible="False">For the short URL(s) that you set please make sure to begin the short URL(s) with "/". For example "/testurl".</rbfwebui:Label>
                                 </div>
                             </td>
                         </tr>

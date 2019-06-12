@@ -7,7 +7,18 @@
       
      }
 </script>
-
+<style>
+    table.innertable a, .toolbar a, .toolbar span {
+    color: #fff;
+}
+    .tbRefresh{
+        padding-top:5px;
+    }
+    .tbRefresh img{
+            width: 15px;
+    margin-left: 15px;
+    }
+</style>
 <div id="jqtreePageManagement">
     <link type="text/css" rel="stylesheet" href="<%: Appleseed.Framework.HttpUrlBuilder.BuildUrl("~/aspnet_client/jQuery/jsTree/themes/proton/style.css") %>" />
     <form id="form1" runat="server">
@@ -20,7 +31,7 @@
                                 <tr>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/add.png" title="<%: Appleseed.Framework.General.GetString("ADDTAB") %>" /></td>
-                                    <td><a href="#" onclick="AddNewPage();">Add New </a></td>
+                                    <td><a href="javascript:;" onclick="AddNewPage();">Add New </a></td>
                                 </tr>
                                 </asp:PlaceHolder>
                                 <tr>
@@ -35,18 +46,18 @@
                                 <tr>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/copy.png" title="Copy Page" onclick="copy_page();" /></td>
-                                    <td><a href="#" onclick="copy_page();">Copy</a></td>
+                                    <td><a href="javascript:;" onclick="copy_page();">Copy</a></td>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/cut.png" title="Cut Page" onclick="cut_page();" /></td>
-                                    <td><a href="#" onclick="cut_page();">Cut</a></td>
+                                    <td><a href="javascript:;" onclick="cut_page();">Cut</a></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/paste.png" title="Paste" onclick="paste();" /></td>
-                                    <td><a href="#" onclick="paste();">Paste</a></td>
+                                    <td><a href="javascript:;" onclick="paste();">Paste</a></td>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/delete.png" title="Delete" onclick="deletePage();" /></td>
-                                    <td><a href="#" onclick="deletePage();">Delete</a></td>
+                                    <td><a href="javascript:;" onclick="deletePage();">Delete</a></td>
                                 </tr>
                             </table>
                         </td>
@@ -55,23 +66,23 @@
                                 <tr>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/navigate_up.png" title="Move Up" onclick="move_up()" /></td>
-                                    <td><a href="#" onclick="move_up();">Up</a></td>
+                                    <td><a href="javascript:;" onclick="move_up();">Up</a></td>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/navigate_down.png" title="Move Down" onclick="move_down()" /></td>
-                                    <td><a href="#" onclick="move_down();">Down</a></td>
+                                    <td><a href="javascript:;" onclick="move_down();">Down</a></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/navigate_up2.png" title="Move First" onclick="move_first()" /></td>
-                                    <td><a href="#" onclick="move_first()">First</a></td>
+                                    <td><a href="javascript:;" onclick="move_first()">First</a></td>
                                     <td>
                                         <img class="actionicon" src="/aspnet_client/jQuery/jsTree/navigate_down2.png" title="Move Last" onclick="move_last()" /></td>
-                                    <td><a href="#" onclick="move_last()">Last</a></td>
+                                    <td><a href="javascript:;" onclick="move_last()">Last</a></td>
                                 </tr>
                             </table>
                         </td>
-                        <td>
-                            <a href="#" onclick="seeChanges();">&nbsp;<img class="" src="/aspnet_client/jQuery/jsTree/refresh.png" title="Refresh" onclick="seeChanges();" /><br />
+                        <td class="tbRefresh">
+                            <a href="javascript:;" onclick="seeChanges();"><img class="" src="/aspnet_client/jQuery/jsTree/refresh.png" title="Refresh" onclick="seeChanges();" /><br />
                                 <span>Refresh</span>
                             </a>
                         </td>
