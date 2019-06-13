@@ -46,8 +46,8 @@
 
     div#url-instructions, div#url-instructions p {
         color: #fff !important;
-        font-size: 15px;
-        line-height: 20px;
+        font-size: 18px;
+        line-height: 25px;
     }
 </style>
 
@@ -77,7 +77,7 @@
                 <h5 style="color: red">For the short URL(s) that you set please make sure to begin the short URL(s) with "/", "http://", or "https://"</h5>
             </div>
             <div id="divValidationErrorMessage2" runat="server" role="alert" visible="false">
-                <h5 style="color: red">For the short URL(s) that you set please make sure to begin the short URL(s) with "/"</h5>
+                <h5 style="color: red">Error! Make sure Short URL begins with "/". Example "/text".</h5>
             </div>
         </div>
     </div>
