@@ -811,3 +811,15 @@ div.error-wrapper {
 .editTitleForm {
     color: #000;
 }
+
+.CenterCol{
+    margin-top:50px !important;
+}
+
+.CenterCol  p{
+    color: #ffffff !important;
+}
+
+    .CenterCol .editTitle {
+        color: #ffffff !important;
+    }
