@@ -816,10 +816,19 @@ div.error-wrapper {
     margin-top:50px !important;
 }
 
-.CenterCol  p{
-    color: #ffffff !important;
-}
+    .CenterCol p, .UpdateTitle, .Normal, a.Normal:link {
+        color: #ffffff !important;
+    }
 
     .CenterCol .editTitle {
         color: #ffffff !important;
     }
+
+.SubSubHead {
+    background-color: #2c2626;
+    color: #fff;
+    padding: 7px 5px;
+}
+a.Normal:hover {
+    color: #ccc !important;
+}

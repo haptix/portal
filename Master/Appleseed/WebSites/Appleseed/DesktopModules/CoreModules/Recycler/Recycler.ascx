@@ -2,9 +2,16 @@
     Language="c#" CodeBehind="Recycler.ascx.cs" %>
 
 <style type="text/css">
+    .module_Body table td{
+        padding:5px !important;
+    }
     .NormalBold {
         font-weight: bold;
-        color: white;
+    color: white;
+    background-color: #2c2626;
+    }
+    .NormalBold tb{
+        vertical-align:middle;
     }
 
         .NormalBold A {
@@ -29,10 +36,18 @@
         background: url(/images/SortOrderDesc.png) no-repeat 100% 50%;
         background-size: 15px;
     }
+    .altRow{
+        background-color: #eeeeee;
+    color: #000 !important;
+    }
+    .itmRow{
+        background-color: #ccc;
+    color: #000 !important;
+    }
 </style>
 
 <h3>Modules</h3>
-<asp:DataGrid ID="DataGrid1" runat="server" AllowSorting="true" AlternatingItemStyle-BackColor="#fff5c9"
+<asp:DataGrid ID="DataGrid1" runat="server" AllowSorting="true" ItemStyle-CssClass="itmRow" AlternatingItemStyle-CssClass="altRow"
     AutoGenerateColumns="False" CssClass="Normal" HorizontalAlign="Center" Width="95%">
     <HeaderStyle CssClass="NormalBold" />
     <Columns>
@@ -59,7 +74,7 @@
 <br />
 <br />
 <h3>Pages</h3>
-<asp:DataGrid ID="dtgPages" runat="server" AllowSorting="true" AlternatingItemStyle-BackColor="#fff5c9" OnSortCommand="dtgPages_SortCommand"
+<asp:DataGrid ID="dtgPages" runat="server" AllowSorting="true" ItemStyle-CssClass="itmRow" AlternatingItemStyle-CssClass="altRow" OnSortCommand="dtgPages_SortCommand"
     AutoGenerateColumns="False" CssClass="Normal" HorizontalAlign="Center" Width="95%">
     <HeaderStyle CssClass="NormalBold" />
     <Columns>
