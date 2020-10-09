@@ -50,8 +50,12 @@ namespace Appleseed.Framework.UrlRewriting
             {
                 string[] splitpaths = pagepath.Split('/');
                 int index = Array.IndexOf(splitpaths, handlerFlag);
-                int requesetedPageId = Convert.ToInt32(splitpaths[index + 1]);
-                pagepath = HttpUrlBuilder.BuildUrl(requesetedPageId);
+                int requesetedPageId;
+                int.TryParse(splitpaths[index + 1], out requesetedPageId);
+                if(requesetedPageId > 0)
+                {
+                    pagepath = HttpUrlBuilder.BuildUrl(requesetedPageId);
+                }
             }
             string _friendlyUrlExtension = ".aspx";
             bool _friendlyUrlNoExtension = false;
@@ -79,18 +83,22 @@ namespace Appleseed.Framework.UrlRewriting
 
             foreach (DataRow pageRow in dtPages.Rows)
             {
-                int pageId = Convert.ToInt32(pageRow["PageID"]);
-                string url = HttpUrlBuilder.BuildUrl(pageId).ToLower();
-                if (url == pagepath)
-                    return pageId.ToString();
-                else
+                int pageId;
+                int.TryParse(pageRow["PageID"].ToString(), out pageId);
+                if (pageId > 0)
                 {
-                    if (!url.Contains(_friendlyUrlExtension))
-                    {
-                        url += _friendlyUrlExtension;
-                    }
+                    string url = HttpUrlBuilder.BuildUrl(pageId).ToLower();
                     if (url == pagepath)
                         return pageId.ToString();
+                    else
+                    {
+                        if (!url.Contains(_friendlyUrlExtension))
+                        {
+                            url += _friendlyUrlExtension;
+                        }
+                        if (url == pagepath)
+                            return pageId.ToString();
+                    }
                 }
             }
 

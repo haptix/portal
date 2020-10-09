@@ -1629,7 +1629,7 @@ namespace Appleseed.Framework.Web.UI.WebControls
                             //this.editButton.HRef += "&ModalChangeMaster=true";
                             this.editButton.Attributes.Add("onclick", "openInModalWide('" + editButton.HRef + "','" + General.GetString("HTML_EDITOR", "Html Editor") + "');return false;");
                         }
-                        else if (this.editButton.HRef.Contains("/HtmlEdit.aspx"))
+                        else if (this.editButton.HRef.ToLower().Contains("/htmledit.aspx"))
                             this.editButton.Attributes.Add("onclick", "openInModalWide('" + editButton.HRef + "','" + General.GetString("HTML_EDITOR", "Html Editor") + "');return false;");
                         else if (this.editButton.HRef.ToLower().Contains("/evoladvmodsettings.aspx"))
                             this.editButton.Attributes.Add("onclick", "openInModal('" + editButton.HRef + "','" + General.GetString("EVOL_ADVD_MODEL_SETTING_TITLE", "Evolutility Advanced Model Settings") + "');return false;");
