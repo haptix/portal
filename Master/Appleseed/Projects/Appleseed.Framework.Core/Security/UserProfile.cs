@@ -61,6 +61,19 @@ namespace Appleseed.Framework.Security
         }
 
         /// <summary>
+        /// has portal admin access
+        /// </summary>
+        /// <returns>Return True if current user is portal admin other wise false</returns>
+        public bool HasPortalAdminAccess()
+        {
+            if (UserInfo != null)
+                return UserProfile.CurrentUser.HasPermission(AccessPermissions.PORTAL_ADMINISTRATION);
+            else
+                return false;
+        }
+
+
+        /// <summary>
         /// Is current user Admin
         /// </summary>
         public static bool isCurrentUserAdmin

@@ -209,8 +209,8 @@ namespace Appleseed
 
                 try
                 {
-                    
-                    userlogin_persistent = (bool)HttpContext.Current.Session["userlogin_persistent"];
+                    bool.TryParse((HttpContext.Current.Session["userlogin_persistent"] == null ? "false" : HttpContext.Current.Session["userlogin_persistent"].ToString()), out userlogin_persistent);
+                    //userlogin_persistent = (bool)HttpContext.Current.Session["userlogin_persistent"];
                 }
                 catch { }
 

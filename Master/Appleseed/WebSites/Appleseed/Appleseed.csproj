@@ -338,6 +338,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Abstractions" />
@@ -908,6 +909,14 @@
     <Compile Include="DesktopModules\CoreModules\Admin\PropertyPage.aspx.designer.cs">
       <DependentUpon>PropertyPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DesktopModules\CoreModules\Airtable\AirtableViewer.ascx.cs">
+      <DependentUpon>AirtableViewer.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesktopModules\CoreModules\Airtable\AirtableViewer.ascx.designer.cs">
+      <DependentUpon>AirtableViewer.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="DesktopModules\CoreModules\Airtable\TableRecords.cs" />
     <Compile Include="DesktopModules\CoreModules\CacheViewer\CacheViewer.ascx.cs">
       <DependentUpon>CacheViewer.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -4847,6 +4856,9 @@
     <Content Include="DesktopModules\CoreModules\Admin\ModuleSettings.aspx" />
     <Content Include="DesktopModules\CoreModules\Admin\PortalService.asmx" />
     <Content Include="DesktopModules\CoreModules\Admin\PropertyPage.aspx" />
+    <Content Include="DesktopModules\CoreModules\Airtable\AirtableViewer.ascx" />
+    <Content Include="DesktopModules\CoreModules\Airtable\install.sql" />
+    <Content Include="DesktopModules\CoreModules\Airtable\install.xml" />
     <Content Include="DesktopModules\CoreModules\CacheViewer\CacheViewer.ascx" />
     <Content Include="DesktopModules\CoreModules\CacheViewer\install.xml" />
     <Content Include="DesktopModules\CoreModules\DatabaseTableEdit\DatabaseTableEdit.ascx" />

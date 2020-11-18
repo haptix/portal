@@ -1502,4 +1502,12 @@
       <Script>2.0.0.1929.sql</Script>
     </Scripts>
   </Release>
+  <Release>
+    <ID>1930</ID>
+    <Version>2.0.0.1930</Version>
+    <Date>2020-11-18T00:00:00.0000000-00:00</Date>
+    <Modules>
+      <Installer>DesktopModules/CoreModules/Airtable/install.xml</Installer>
+    </Modules>
+  </Release>
 </History>
